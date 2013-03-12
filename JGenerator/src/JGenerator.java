@@ -91,10 +91,58 @@ public class JGenerator
 				System.out.println("Parallel: " + requestCount/(totalTime/1000));
 				break;
 			case PWP:
-				
+				while(totalTime/1000 < DURATION)
+				{
+					requestCount++;
+					start = System.currentTimeMillis();
+					String urlString = URL;
+					URL url = new URL(urlString);
+					conn = (HttpURLConnection) url.openConnection();
+					in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+					while (in.read() != -1);
+					in.close();
+					requestCount++;
+					while((1000/rate) > System.currentTimeMillis()-start);
+					totalTime += System.currentTimeMillis() - start;
+					start = System.currentTimeMillis();
+					HttpURLConnection pic = (HttpURLConnection) new URL(urlString + "/0.jpg").openConnection();
+					other = new BufferedReader(new InputStreamReader(pic.getInputStream()));
+					while (other.read() != -1);
+					other.close();
+					while((1000/rate) > System.currentTimeMillis()-start);
+					finish = System.currentTimeMillis();
+					totalTime += finish - start;
+				}
+
+				System.out.println("Serial: " + requestCount/(totalTime/1000));
+				conn.disconnect();
 				break;
 			case PWOP:
-				
+				while(totalTime/1000 < DURATION)
+				{
+					requestCount++;
+					start = System.currentTimeMillis();
+					String urlString = URL;
+					URL url = new URL(urlString);
+					conn = (HttpURLConnection) url.openConnection();
+					in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+					while (in.read() != -1);
+					in.close();
+					requestCount++;
+					while((1000/rate) > System.currentTimeMillis()-start);
+					totalTime += System.currentTimeMillis() - start;
+					start = System.currentTimeMillis();
+					HttpURLConnection pic = (HttpURLConnection) new URL(urlString + "/0.jpg").openConnection();
+					other = new BufferedReader(new InputStreamReader(pic.getInputStream()));
+					while (other.read() != -1);
+					other.close();
+					while((1000/rate) > System.currentTimeMillis()-start);
+					finish = System.currentTimeMillis();
+					totalTime += finish - start;
+				}
+
+				System.out.println("Serial: " + requestCount/(totalTime/1000));
+				conn.disconnect();
 				break;
 		}
 		
