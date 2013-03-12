@@ -41,6 +41,7 @@ public class JGenerator
 		BufferedReader in = null;
 		BufferedReader other = null;
 		HttpURLConnection conn = null;
+		HttpURLConnection pic = null;
 		switch(connType)
 		{
 			case NPS:
@@ -55,34 +56,20 @@ public class JGenerator
 					in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
 					while (in.read() != -1);
 					in.close();
-					
-					//omg wtf am i doing?
-					conn.disconnect();
-					
 					requestCount++;
 					while((1000/rate) > System.currentTimeMillis()-start);
 					totalTime += System.currentTimeMillis() - start;
 					start = System.currentTimeMillis();
-					//HttpURLConnection pic = (HttpURLConnection) new URL(urlString + "/0.jpg").openConnection();
-					//pic.setRequestProperty("Connection", "close");
-					
-					//augh!
 					conn = (HttpURLConnection) new URL(urlString + "/0.jpg").openConnection();
 					conn.setRequestProperty("Connection", "close");
-					
 					other = new BufferedReader(new InputStreamReader(conn.getInputStream()));
 					while (other.read() != -1);
 					other.close();
-					
-					//again!?
-					
-					
 					while((1000/rate) > System.currentTimeMillis()-start);
 					finish = System.currentTimeMillis();
 					totalTime += finish - start;
 				}
-
-				//conn.disconnect();
+				conn.disconnect();
 				break;
 			case NPP:
 				while(totalTime/1000 < DURATION)
@@ -93,7 +80,7 @@ public class JGenerator
 					URL url = new URL(urlString);
 					conn = (HttpURLConnection) url.openConnection();
 					conn.setRequestProperty("Connection", "close");
-					HttpURLConnection pic = (HttpURLConnection) new URL(urlString + "/0.jpg").openConnection();
+					pic = (HttpURLConnection) new URL(urlString + "/0.jpg").openConnection();
 					pic.setRequestProperty("Connection", "close");
 					in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
 					other = new BufferedReader(new InputStreamReader(pic.getInputStream()));
@@ -103,37 +90,10 @@ public class JGenerator
 					in.close();
 					other.close();
 				}
-
-				break;
-			case PWP:
-				while(totalTime/1000 < DURATION)
-				{
-					requestCount++;
-					start = System.currentTimeMillis();
-					String urlString = URL;
-					URL url = new URL(urlString);
-					conn = (HttpURLConnection) url.openConnection();
-					conn.setRequestProperty("Connection", "Keep-Alive");
-					in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-					while (in.read() != -1);
-					in.close();
-					requestCount++;
-					while((1000/rate) > System.currentTimeMillis()-start);
-					totalTime += System.currentTimeMillis() - start;
-					start = System.currentTimeMillis();
-					HttpURLConnection pic = (HttpURLConnection) new URL(urlString + "/0.jpg").openConnection();
-					pic.setRequestProperty("Connection", "Keep-Alive");
-					other = new BufferedReader(new InputStreamReader(pic.getInputStream()));
-					while (other.read() != -1);
-					other.close();
-					while((1000/rate) > System.currentTimeMillis()-start);
-					finish = System.currentTimeMillis();
-					totalTime += finish - start;
-				}
-
 				conn.disconnect();
+				pic.disconnect();
 				break;
-			case PWOP:
+			default:
 				while(totalTime/1000 < DURATION)
 				{
 					requestCount++;
@@ -149,9 +109,9 @@ public class JGenerator
 					while((1000/rate) > System.currentTimeMillis()-start);
 					totalTime += System.currentTimeMillis() - start;
 					start = System.currentTimeMillis();
-					HttpURLConnection pic = (HttpURLConnection) new URL(urlString + "/0.jpg").openConnection();
-					pic.setRequestProperty("Connection", "Keep-Alive");
-					other = new BufferedReader(new InputStreamReader(pic.getInputStream()));
+					conn = (HttpURLConnection) new URL(urlString + "/0.jpg").openConnection();
+					conn.setRequestProperty("Connection", "Keep-Alive");
+					other = new BufferedReader(new InputStreamReader(conn.getInputStream()));
 					while (other.read() != -1);
 					other.close();
 					while((1000/rate) > System.currentTimeMillis()-start);
@@ -164,7 +124,7 @@ public class JGenerator
 		
 		in.close();
 		other.close();
-		System.out.println("Average Request/Second: " + requestCount/(totalTime/1000));
+		System.out.println("Average Requests/Second: " + requestCount/(totalTime/1000));
 	}
 	
 	public static void printUsage()
