@@ -55,20 +55,34 @@ public class JGenerator
 					in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
 					while (in.read() != -1);
 					in.close();
+					
+					//omg wtf am i doing?
+					conn.disconnect();
+					
 					requestCount++;
 					while((1000/rate) > System.currentTimeMillis()-start);
 					totalTime += System.currentTimeMillis() - start;
 					start = System.currentTimeMillis();
-					HttpURLConnection pic = (HttpURLConnection) new URL(urlString + "/0.jpg").openConnection();
+					//HttpURLConnection pic = (HttpURLConnection) new URL(urlString + "/0.jpg").openConnection();
+					//pic.setRequestProperty("Connection", "close");
+					
+					//augh!
+					conn = (HttpURLConnection) new URL(urlString + "/0.jpg").openConnection();
+					conn.setRequestProperty("Connection", "close");
+					
 					other = new BufferedReader(new InputStreamReader(pic.getInputStream()));
 					while (other.read() != -1);
 					other.close();
+					
+					//again!?
+					
+					
 					while((1000/rate) > System.currentTimeMillis()-start);
 					finish = System.currentTimeMillis();
 					totalTime += finish - start;
 				}
 
-				conn.disconnect();
+				//conn.disconnect();
 				break;
 			case NPP:
 				while(totalTime/1000 < DURATION)
