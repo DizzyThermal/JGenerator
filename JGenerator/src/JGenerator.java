@@ -1,4 +1,8 @@
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 
 public class JGenerator 
 {
@@ -26,13 +30,76 @@ public class JGenerator
 			if(!validInput)
 				printUsage();
 			else
-				generateTraffic(connType, rate);
+				generateTraffic();
 		}
 	}
 	
-	public static void generateTraffic(int connType, int rate)
+	public static void generateTraffic() throws IOException
 	{
-		// Plop Code Here
+		int requestCount = 0;
+		double start = 0, finish = 0, totalTime = 0;
+		BufferedReader in = null;
+		BufferedReader other = null;
+		HttpURLConnection conn = null;
+		switch(connType)
+		{
+			case NPS:
+				while(totalTime/1000 < DURATION)
+				{
+					requestCount++;
+					start = System.currentTimeMillis();
+					String urlString = URL;
+					URL url = new URL(urlString);
+					conn = (HttpURLConnection) url.openConnection();
+					in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+					while (in.read() != -1);
+					in.close();
+					requestCount++;
+					while((1000/rate) > System.currentTimeMillis()-start);
+					totalTime += System.currentTimeMillis() - start;
+					start = System.currentTimeMillis();
+					HttpURLConnection pic = (HttpURLConnection) new URL(urlString + "/0.jpg").openConnection();
+					other = new BufferedReader(new InputStreamReader(pic.getInputStream()));
+					while (other.read() != -1);
+					other.close();
+					while((1000/rate) > System.currentTimeMillis()-start);
+					finish = System.currentTimeMillis();
+					totalTime += finish - start;
+				}
+
+				System.out.println("Serial: " + requestCount/(totalTime/1000));
+				conn.disconnect();
+				break;
+			case NPP:
+				while(totalTime/1000 < DURATION)
+				{
+					requestCount+=2;
+					start = System.currentTimeMillis();
+					String urlString = URL;
+					URL url = new URL(urlString);
+					conn = (HttpURLConnection) url.openConnection();
+					HttpURLConnection pic = (HttpURLConnection) new URL(urlString + "/0.jpg").openConnection();
+					in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+					other = new BufferedReader(new InputStreamReader(pic.getInputStream()));
+					while(in.read() != -1 && other.read() != -1);
+					while((2000/rate) > System.currentTimeMillis()-start);
+					totalTime += System.currentTimeMillis() - start;
+					in.close();
+					other.close();
+				}
+
+				System.out.println("Parallel: " + requestCount/(totalTime/1000));
+				break;
+			case PWP:
+				
+				break;
+			case PWOP:
+				
+				break;
+		}
+		
+		in.close();
+		other.close();
 	}
 	
 	public static void printUsage()
