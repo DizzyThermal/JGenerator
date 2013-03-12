@@ -6,7 +6,7 @@ import java.net.URL;
 
 public class JGenerator 
 {
-	private static final String IP			= "192.168.1.100";
+	private static final String IP			= "http://192.168.1.100";
 	private static final String PORT		= "8080";
 	private static final String URL			= IP + ":" + PORT;
 
