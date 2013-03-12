@@ -8,52 +8,62 @@ public class JGenerator
 
 	private static final int DURATION		= 30;
 
-	private static final int UNKNOWN_TYPE	= -1;
 	private static final int NPS			= 0;
 	private static final int NPP			= 1;
 	private static final int PWP			= 2;
 	private static final int PWOP			= 3;
 
+	private static int rate;
+	private static int connType;
+	
 	public static void main(String[] args) throws IOException 
 	{
-		if(args.length != 1)
+		if(args.length != 2)
 			printUsage();
 		else
 		{
-			int connType = determineConnectionType(args[0]);
-			if(connType == UNKNOWN_TYPE)
+			boolean validInput = determineConnectionType(args);
+			if(!validInput)
 				printUsage();
 			else
-				generateTraffic(connType);
+				generateTraffic(connType, rate);
 		}
 	}
 	
-	public static void generateTraffic(int connType)
+	public static void generateTraffic(int connType, int rate)
 	{
 		// Plop Code Here
 	}
 	
 	public static void printUsage()
 	{
-		System.out.println("Usage: java JGenerator <mode>");
+		System.out.println("Usage: java JGenerator <mode> <rate>");
 		System.out.println("          Modes:");
 		System.out.println("             -nps (Non-Persistent Serial)");
 		System.out.println("             -npp (Non-Persistent Parallel)");
 		System.out.println("             -pwp (Persistent with Pipe)");
 		System.out.println("             -pwop (Persistent without Pipe)");
+		System.out.println("");
+		System.out.println("          Rate: (Requests/Second)");
+		System.out.println("             E.g. 1");
 	}
 	
-	public static int determineConnectionType(String arg)
+	public static boolean determineConnectionType(String[] v)
 	{
-		if(arg.equals("nps"))
-			return NPS;
-		else if(arg.equals("npp"))
-			return NPP;
-		else if(arg.equals("pwp"))
-			return PWP;
-		else if(arg.equals("pwop"))
-			return PWOP;
+		if(v[0].equals("nps"))
+			connType = NPS;
+		else if(v[0].equals("npp"))
+			connType = NPP;
+		else if(v[0].equals("pwp"))
+			connType = PWP;
+		else if(v[0].equals("pwop"))
+			connType = PWOP;
 		else
-			return UNKNOWN_TYPE;
+			return false;
+		
+		try					{ rate = Integer.parseInt(v[1]);	}
+		catch (Exception e)	{ return false;						}
+		
+		return true;
 	}
 }
