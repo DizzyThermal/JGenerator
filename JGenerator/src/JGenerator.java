@@ -67,7 +67,6 @@ public class JGenerator
 					totalTime += finish - start;
 				}
 
-				System.out.println("Serial: " + requestCount/(totalTime/1000));
 				conn.disconnect();
 				break;
 			case NPP:
@@ -88,7 +87,6 @@ public class JGenerator
 					other.close();
 				}
 
-				System.out.println("Parallel: " + requestCount/(totalTime/1000));
 				break;
 			case PWP:
 				while(totalTime/1000 < DURATION)
@@ -114,7 +112,6 @@ public class JGenerator
 					totalTime += finish - start;
 				}
 
-				System.out.println("Serial: " + requestCount/(totalTime/1000));
 				conn.disconnect();
 				break;
 			case PWOP:
@@ -141,13 +138,13 @@ public class JGenerator
 					totalTime += finish - start;
 				}
 
-				System.out.println("Serial: " + requestCount/(totalTime/1000));
 				conn.disconnect();
 				break;
 		}
 		
 		in.close();
 		other.close();
+		System.out.println("Average Request/Second: " + requestCount/(totalTime/1000));
 	}
 	
 	public static void printUsage()
