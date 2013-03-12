@@ -70,7 +70,7 @@ public class JGenerator
 					conn = (HttpURLConnection) new URL(urlString + "/0.jpg").openConnection();
 					conn.setRequestProperty("Connection", "close");
 					
-					other = new BufferedReader(new InputStreamReader(pic.getInputStream()));
+					other = new BufferedReader(new InputStreamReader(conn.getInputStream()));
 					while (other.read() != -1);
 					other.close();
 					
