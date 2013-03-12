@@ -10,7 +10,7 @@ public class JGenerator
 	private static final String PORT		= "8080";
 	private static final String URL			= IP + ":" + PORT;
 
-	private static final int DURATION		= 30;
+	private static int DURATION				= 30;
 
 	private static final int NPS			= 0;
 	private static final int NPP			= 1;
@@ -22,7 +22,7 @@ public class JGenerator
 	
 	public static void main(String[] args) throws IOException 
 	{
-		if(args.length != 2)
+		if(args.length < 2 || args.length > 4)
 			printUsage();
 		else
 		{
@@ -149,7 +149,7 @@ public class JGenerator
 	
 	public static void printUsage()
 	{
-		System.out.println("Usage: java JGenerator <mode> <rate>");
+		System.out.println("Usage: java JGenerator <mode> <rate> -d <duration>");
 		System.out.println("          Modes:");
 		System.out.println("             -nps (Non-Persistent Serial)");
 		System.out.println("             -npp (Non-Persistent Parallel)");
@@ -158,6 +158,9 @@ public class JGenerator
 		System.out.println("");
 		System.out.println("          Rate: (Requests/Second)");
 		System.out.println("             E.g. 1");
+		System.out.println("");
+		System.out.println("          Duration: (Optional - Default: 30)");
+		System.out.println("             E.g. 10");
 	}
 	
 	public static boolean determineConnectionType(String[] v)
@@ -175,6 +178,21 @@ public class JGenerator
 		
 		try					{ rate = Integer.parseInt(v[1]);	}
 		catch (Exception e)	{ return false;						}
+		
+		if(v.length > 2)
+		{
+			if(v[2].equals("-d"))
+			{
+				try { DURATION = Integer.parseInt(v[3]); }
+				catch (Exception e)
+				{
+					DURATION = 30; // Reset
+					return false;
+				}
+			}
+			else
+				return false;
+		}
 		
 		return true;
 	}
