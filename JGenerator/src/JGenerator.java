@@ -1,10 +1,9 @@
 import java.io.IOException;
-import java.io.InputStream;
-import java.net.URL;
-import java.net.URLConnection;
 
 public class JGenerator 
 {
+	private static final String IP			= "192.168.1.100";
+	private static final String PORT		= "8080";
 	private static final int DURATION		= 30;
 
 	private static final int UNKNOWN_TYPE	= -1;
@@ -23,15 +22,13 @@ public class JGenerator
 			if(connType == UNKNOWN_TYPE)
 				printUsage();
 			else
-			{
-				// Not sure where to plop this??
-				String urlString = "http://192.168.1.100:8080";
-				URL url = new URL(urlString);
-				URLConnection conn = url.openConnection();
-				InputStream is = conn.getInputStream();
-				// Not sure where to plop this??
-			}
+				generateTraffic(connType);
 		}
+	}
+	
+	public static void generateTraffic(int connType)
+	{
+		// Plop Code Here
 	}
 	
 	public static void printUsage()
