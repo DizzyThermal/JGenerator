@@ -99,6 +99,7 @@ public class JGenerator
 					String urlString = URL;
 					URL url = new URL(urlString);
 					conn = (HttpURLConnection) url.openConnection();
+					conn.setRequestProperty("Connection", "Keep-Alive");
 					in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
 					while (in.read() != -1);
 					in.close();
@@ -107,6 +108,7 @@ public class JGenerator
 					totalTime += System.currentTimeMillis() - start;
 					start = System.currentTimeMillis();
 					HttpURLConnection pic = (HttpURLConnection) new URL(urlString + "/0.jpg").openConnection();
+					pic.setRequestProperty("Connection", "Keep-Alive");
 					other = new BufferedReader(new InputStreamReader(pic.getInputStream()));
 					while (other.read() != -1);
 					other.close();
@@ -125,6 +127,7 @@ public class JGenerator
 					String urlString = URL;
 					URL url = new URL(urlString);
 					conn = (HttpURLConnection) url.openConnection();
+					conn.setRequestProperty("Connection", "Keep-Alive");
 					in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
 					while (in.read() != -1);
 					in.close();
@@ -133,6 +136,7 @@ public class JGenerator
 					totalTime += System.currentTimeMillis() - start;
 					start = System.currentTimeMillis();
 					HttpURLConnection pic = (HttpURLConnection) new URL(urlString + "/0.jpg").openConnection();
+					pic.setRequestProperty("Connection", "Keep-Alive");
 					other = new BufferedReader(new InputStreamReader(pic.getInputStream()));
 					while (other.read() != -1);
 					other.close();
