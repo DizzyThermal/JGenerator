@@ -4,6 +4,8 @@ public class JGenerator
 {
 	private static final String IP			= "192.168.1.100";
 	private static final String PORT		= "8080";
+	private static final String URL			= IP + ":" + PORT;
+
 	private static final int DURATION		= 30;
 
 	private static final int UNKNOWN_TYPE	= -1;
