@@ -4,6 +4,8 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
+import javax.swing.JFrame;
+
 public class JGenerator 
 {
 	private static final String IP			= "http://192.168.1.100";
@@ -20,10 +22,12 @@ public class JGenerator
 	private static int rate;
 	private static int connType;
 	
+	private static boolean GUI = false;
+	
 	public static void main(String[] args) throws IOException 
 	{
 		if(args.length < 2 || args.length > 4)
-			printUsage();
+			generateGUI();
 		else
 		{
 			boolean validInput = determineConnectionType(args);
@@ -34,7 +38,7 @@ public class JGenerator
 		}
 	}
 	
-	public static void generateTraffic() throws IOException
+	public static String generateTraffic() throws IOException
 	{
 		int requestCount = 0;
 		double start = 0, finish = 0, totalTime = 0;
@@ -124,7 +128,12 @@ public class JGenerator
 		
 		in.close();
 		other.close();
-		System.out.println("Average Requests/Second: " + requestCount/(totalTime/1000));
+		if(!GUI)
+			System.out.println("Average Requests/Second: " + requestCount/(totalTime/1000));
+		else
+			return "Average Requests/Second: " + requestCount/(totalTime/1000);
+		
+		return null;
 	}
 	
 	public static void printUsage()
@@ -175,5 +184,25 @@ public class JGenerator
 		}
 		
 		return true;
+	}
+	
+	public static void generateGUI()
+	{
+		GUI go = new GUI();
+
+		go.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		go.setSize(440, 140);
+		go.setResizable(false);
+		go.setVisible(true);
+	}
+	
+	public static String GUIExecute(int[] parameters) throws IOException
+	{
+		GUI			= true;
+		connType	= parameters[0];
+		rate		= parameters[1];
+		DURATION	= parameters[2];
+		
+		return generateTraffic();
 	}
 }
