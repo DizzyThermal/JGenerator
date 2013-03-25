@@ -8,8 +8,8 @@ import javax.swing.JFrame;
 
 public class JGenerator 
 {
-	private static String IP			= "http://192.168.1.100";
-	private static String PORT		= "8080";
+	private static String IP				= "http://192.168.1.100";
+	private static String PORT				= "8080";
 	private static final String URL			= IP + ":" + PORT;
 
 	private static int DURATION				= 30;
@@ -207,9 +207,9 @@ public class JGenerator
 		else
 			IP = "http://" + (String)parameters[0];
 		
-		connType	= (int)parameters[0];
-		rate		= (int)parameters[1];
-		DURATION	= (int)parameters[2];
+		connType	= (int)parameters[1];
+		rate		= (int)parameters[2];
+		DURATION	= (int)parameters[3];
 		
 		return generateTraffic();
 	}
