@@ -3,6 +3,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.text.DecimalFormat;
 
 import javax.swing.JFrame;
 
@@ -128,10 +129,11 @@ public class JGenerator
 		
 		in.close();
 		other.close();
+		double value = round(requestCount/(totalTime/1000));
 		if(!GUI)
-			System.out.println("Average Requests/Second: " + requestCount/(totalTime/1000));
+			System.out.println("Average Requests/Second: " + value);
 		else
-			return "Average Requests/Second: " + requestCount/(totalTime/1000);
+			return "Average Requests/Second: " + value;
 		
 		return null;
 	}
@@ -212,5 +214,10 @@ public class JGenerator
 		DURATION	= (int)parameters[3];
 		
 		return generateTraffic();
+	}
+	
+	public static double round(Double value)
+	{
+		return Double.valueOf(new DecimalFormat("#.###").format(value));
 	}
 }
