@@ -8,8 +8,8 @@ import javax.swing.JFrame;
 
 public class JGenerator 
 {
-	private static final String IP			= "http://192.168.1.100";
-	private static final String PORT		= "8080";
+	private static String IP			= "http://192.168.1.100";
+	private static String PORT		= "8080";
 	private static final String URL			= IP + ":" + PORT;
 
 	private static int DURATION				= 30;
@@ -191,17 +191,25 @@ public class JGenerator
 		GUI go = new GUI();
 
 		go.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		go.setSize(440, 140);
+		go.setSize(440, 195);
 		go.setResizable(false);
 		go.setVisible(true);
 	}
 	
-	public static String GUIExecute(int[] parameters) throws IOException
+	public static String GUIExecute(Object[] parameters) throws IOException
 	{
 		GUI			= true;
-		connType	= parameters[0];
-		rate		= parameters[1];
-		DURATION	= parameters[2];
+		if(((String)parameters[0]).contains(":"))
+		{
+			IP		= "http://" + ((String)parameters[0]).split(":")[0];
+			PORT	= ((String)parameters[0]).split(":")[1];
+		}
+		else
+			IP = "http://" + (String)parameters[0];
+		
+		connType	= (int)parameters[0];
+		rate		= (int)parameters[1];
+		DURATION	= (int)parameters[2];
 		
 		return generateTraffic();
 	}
