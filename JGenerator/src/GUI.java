@@ -2,8 +2,14 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 import java.io.IOException;
 
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
@@ -42,12 +48,12 @@ public class GUI extends JFrame implements ActionListener
 	JPanel mainPanel = new JPanel();
 
 	// Generate Traffic and Clear Buttons
-	JButton generateTrafficButton = new JButton("Generate Traffic");
+	JButton generateTrafficButton = new JButton("Fire!");
 	JButton resetButton = new JButton("Reset");
 	
 	GUI()
 	{
-		super("ECE 369 - JGenerator v0.3 (Ephesus)");
+		super("ECE 369 - JGenerator v0.4 (Fall River)");
 		FlowLayout fl = new FlowLayout();
 		fl.setAlignment(FlowLayout.LEFT);
 		setLayout(fl);
@@ -85,6 +91,9 @@ public class GUI extends JFrame implements ActionListener
 	{
 		if(e.getSource() == generateTrafficButton)
 		{
+			try { playFire(); }
+			catch (LineUnavailableException | IOException | UnsupportedAudioFileException e1) { e1.printStackTrace(); }
+			
 			Object[] parameters = new Object[4];
 			parameters[0] = ((JTextField)mainPanel.getComponent(ADDRESS)).getText();
 			if(!validIP((String)parameters[0]))
@@ -146,5 +155,14 @@ public class GUI extends JFrame implements ActionListener
 	        return true;
 	    }
 		catch (NumberFormatException nfe) { return false; }
+	}
+	
+	public void playFire() throws LineUnavailableException, IOException, UnsupportedAudioFileException
+	{
+		File soundFile = new File("a6-fire.wav");
+		AudioInputStream audioIn = AudioSystem.getAudioInputStream(soundFile);
+		Clip clip = AudioSystem.getClip();
+		clip.open(audioIn);
+		clip.start();
 	}
 }
