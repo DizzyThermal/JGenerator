@@ -82,6 +82,8 @@ public class JGenerator
 					totalTime += finish - start;
 				}
 				conn.disconnect();
+				in.close();
+				other.close();
 				break;
 			case NPP:
 				boolean t1Done = false;
@@ -127,6 +129,8 @@ public class JGenerator
 							
 							conn.disconnect();
 							pic.disconnect();
+							in.close();
+							other.close();
 							setThreadValue(1, requestCount, totalTime);
 						}
 						catch(IOException ioe) { ioe.printStackTrace(); }
@@ -173,6 +177,8 @@ public class JGenerator
 							
 							conn.disconnect();
 							pic.disconnect();
+							in.close();
+							other.close();
 							setThreadValue(2, requestCount, totalTime);
 						}
 						catch(IOException ioe) { ioe.printStackTrace(); }
@@ -213,11 +219,11 @@ public class JGenerator
 					totalTime += finish - start;
 				}
 				conn.disconnect();
+				in.close();
+				other.close();
 				break;
 		}
-		
-		in.close();
-		other.close();
+
 		double value = round(requestCount/(totalTime/1000));
 		if(!GUI)
 			System.out.println("Average Requests/Second: " + value);
