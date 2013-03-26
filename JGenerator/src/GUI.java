@@ -47,7 +47,7 @@ public class GUI extends JFrame implements ActionListener
 	
 	GUI()
 	{
-		super("ECE 369 - JGenerator");
+		super("ECE 369 - JGenerator v0.2 (Damascus)");
 		FlowLayout fl = new FlowLayout();
 		fl.setAlignment(FlowLayout.LEFT);
 		setLayout(fl);
