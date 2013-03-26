@@ -5,7 +5,6 @@ import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
 
-import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import javax.sound.sampled.LineUnavailableException;
@@ -91,8 +90,7 @@ public class GUI extends JFrame implements ActionListener
 	{
 		if(e.getSource() == generateTrafficButton)
 		{
-			try { playFire(); }
-			catch (LineUnavailableException | IOException | UnsupportedAudioFileException e1) { e1.printStackTrace(); }
+			playFire();
 			
 			Object[] parameters = new Object[4];
 			parameters[0] = ((JTextField)mainPanel.getComponent(ADDRESS)).getText();
@@ -157,12 +155,17 @@ public class GUI extends JFrame implements ActionListener
 		catch (NumberFormatException nfe) { return false; }
 	}
 	
-	public void playFire() throws LineUnavailableException, IOException, UnsupportedAudioFileException
+	public void playFire()
 	{
-		File soundFile = new File("a6-fire.wav");
-		AudioInputStream audioIn = AudioSystem.getAudioInputStream(soundFile);
-		Clip clip = AudioSystem.getClip();
-		clip.open(audioIn);
-		clip.start();
+		try
+	    {
+	        Clip clip = AudioSystem.getClip();
+	        clip.open(AudioSystem.getAudioInputStream(new File("a6-fire.wav").getAbsoluteFile()));
+	        clip.start();
+	    }
+	    catch (Exception exc)
+	    {
+	        exc.printStackTrace(System.out);
+	    }
 	}
 }
