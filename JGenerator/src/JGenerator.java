@@ -11,7 +11,7 @@ public class JGenerator
 {
 	private static String IP				= "http://192.168.1.100";
 	private static String PORT				= "8080";
-	private static final String URL			= IP + ":" + PORT;
+	private static String URL				= IP + ":" + PORT;
 
 	private static int DURATION				= 30;
 
@@ -47,6 +47,7 @@ public class JGenerator
 	
 	public static String generateTraffic() throws IOException
 	{
+		URL = IP + ":" + PORT;
 		int requestCount = 0;
 		double start = 0, finish = 0;
 		double totalTime = 0;
